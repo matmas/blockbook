@@ -1,0 +1,70 @@
+{
+  "coin": {
+    "name": "Capricoin",
+    "shortcut": "CPC",
+    "label": "Capricoin",
+    "alias": "capricoin"
+  },
+  "ports": {
+    "backend_rpc": 8062,
+    "backend_message_queue": 38362,
+    "blockbook_internal": 9062,
+    "blockbook_public": 9162
+  },
+  "ipc": {
+    "rpc_url_template": "http://127.0.0.1:{{.Ports.BackendRPC}}",
+    "rpc_user": "rpc",
+    "rpc_pass": "rpc1",
+    "rpc_timeout": 25,
+    "message_queue_binding_template": "tcp://127.0.0.1:{{.Ports.BackendMessageQueue}}"
+  },
+  "backend": {
+    "package_name": "backend-capricoin",
+    "package_revision": "1",
+    "system_user": "capricoin",
+    "version": "1.2.0.0",
+    "binary_url": "https://github.com/Capricoinofficial/Capricoin/releases/download/v1.2.0.0/Capricoin-1.2.0.0-linux64.tar.gz",
+    "verification_type": "sha256",
+    "verification_source": "46ace138acf8dffed3e4c85bc7750020d069b9bd0e57cf6a96dd4dee341dea7d",
+    "extract_command": "tar -C backend -xf Capricoin-1.2.0.0-linux64.tar.gz && chmod +x backend/Capricoind && true",
+    "exclude_files": [
+      "Capricoin-qt"
+    ],
+    "exec_command_template": "{{.Env.BackendInstallPath}}/{{.Coin.Alias}}/Capricoind -datadir={{.Env.BackendDataPath}}/{{.Coin.Alias}}/backend -conf={{.Env.BackendInstallPath}}/{{.Coin.Alias}}/{{.Coin.Alias}}.conf -pid=/run/{{.Coin.Alias}}/{{.Coin.Alias}}.pid",
+    "logrotate_files_template": "{{.Env.BackendDataPath}}/{{.Coin.Alias}}/backend/*.log",
+    "postinst_script_template": "",
+    "service_type": "forking",
+    "service_additional_params_template": "",
+    "protect_memory": false,
+    "mainnet": true,
+    "server_config_file": "bitcoin.conf",
+    "client_config_file": "bitcoin_client.conf",
+    "additional_params": {
+      "deprecatedrpc": "estimatefee",
+      "rpcuser": "rpc",
+      "rpcpassword": "rpc1",
+      "rpcport": 8046
+    }
+  },
+  "blockbook": {
+    "package_name": "blockbook-capricoin",
+    "system_user": "blockbook-capricoin",
+    "internal_binding_template": ":{{.Ports.BlockbookInternal}}",
+    "public_binding_template": ":{{.Ports.BlockbookPublic}}",
+    "explorer_url": "",
+    "additional_params": "",
+    "block_chain": {
+      "parse": false,
+      "mempool_workers": 8,
+      "mempool_sub_workers": 2,
+      "block_addresses_to_keep": 300,
+      "xpub_magic": 76067358,
+      "slip44": 289,
+      "additional_params": {}
+    }
+  },
+  "meta": {
+    "package_maintainer": "Martin Riesz",
+    "package_maintainer_email": "riesz.martin@gmail.com"
+  }
+}
