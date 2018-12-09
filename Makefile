@@ -1,3 +1,4 @@
+RUN_IMAGE_PREFIX = blockbook
 BIN_IMAGE = blockbook-build
 DEB_IMAGE = blockbook-build-deb
 PACKAGER = $(shell id -u):$(shell id -g)
@@ -41,6 +42,11 @@ all: clean-deb build-images $(addprefix deb-, $(TARGETS))
 
 build-images: clean-images
 	$(MAKE) .bin-image .deb-image
+
+docker-%: build
+	contrib/scripts/build-blockchaincfg.sh $*
+	sed 's/"rpc_url": ".*",/"rpc_url": "$${RPC_URL}",/' build/blockchaincfg.json > build/blockchaincfg.json.template
+	docker build --no-cache=$(NO_CACHE) -t $(RUN_IMAGE_PREFIX)-$* -f build/docker/run/Dockerfile .; \
 
 .bin-image:
 	@if [ $$(build/tools/image_status.sh $(BIN_IMAGE):latest build/docker) != "ok" ]; then \
