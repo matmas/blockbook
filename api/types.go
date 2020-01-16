@@ -186,6 +186,7 @@ type Tx struct {
 	Blockhash        string            `json:"blockHash,omitempty"`
 	Blockheight      int               `json:"blockHeight"`
 	Confirmations    uint32            `json:"confirmations"`
+	Time             int64             `json:"time,omitempty"`
 	Blocktime        int64             `json:"blockTime"`
 	Size             int               `json:"size,omitempty"`
 	ValueOutSat      *Amount           `json:"value"`

@@ -317,6 +317,7 @@ func (w *Worker) GetTransactionFromBchainTx(bchainTx *bchain.Tx, height int, spe
 		Confirmations:    bchainTx.Confirmations,
 		FeesSat:          (*Amount)(&feesSat),
 		Locktime:         bchainTx.LockTime,
+		Time:             bchainTx.Time,
 		Txid:             bchainTx.Txid,
 		ValueInSat:       (*Amount)(pValInSat),
 		ValueOutSat:      (*Amount)(&valOutSat),
