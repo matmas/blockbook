@@ -43,7 +43,7 @@
       "deprecatedrpc": "estimatefee",
       "rpcuser": "rpc",
       "rpcpassword": "rpc1",
-      "rpcport": 8046
+      "rpcport": 8062
     }
   },
   "blockbook": {
